@@ -7,7 +7,9 @@ import axios from "axios";
 
 const API_URL =
   import.meta.env.VITE_API_URL ||
-  "http://localhost:5000";
+  (import.meta.env.DEV
+    ? "http://localhost:5000"
+    : "https://smart-food-waste-backend.onrender.com");
 
 // =====================================================
 // GET TOKEN
