@@ -5,7 +5,11 @@ import axios from "axios";
 // API URL
 // =====================================================
 
-const API_URL = "http://localhost:5000/api";
+const API_URL =
+  import.meta.env.VITE_API_URL ||
+  (import.meta.env.DEV
+    ? "http://localhost:5000"
+    : "https://smart-food-waste-backend.onrender.com");
 
 // =====================================================
 // STORED TOKEN / USER
@@ -28,6 +32,7 @@ try {
 
 // =====================================================
 // LOGIN
+// POST /api/auth/login
 // =====================================================
 
 export const login = createAsyncThunk(
@@ -39,7 +44,7 @@ export const login = createAsyncThunk(
   ) => {
     try {
       const response = await axios.post(
-        `${API_URL}/auth/login`,
+        `${API_URL}/api/auth/login`,
         loginData
       );
 
@@ -64,8 +69,12 @@ export const login = createAsyncThunk(
         token,
         user,
       };
-
     } catch (error) {
+      console.error(
+        "Login Error:",
+        error.response?.data || error.message
+      );
+
       return rejectWithValue(
         error.response?.data?.message ||
           "Login failed"
@@ -76,6 +85,7 @@ export const login = createAsyncThunk(
 
 // =====================================================
 // REGISTER
+// POST /api/auth/register
 // =====================================================
 
 export const register = createAsyncThunk(
@@ -87,13 +97,17 @@ export const register = createAsyncThunk(
   ) => {
     try {
       const response = await axios.post(
-        `${API_URL}/auth/register`,
+        `${API_URL}/api/auth/register`,
         registerData
       );
 
       return response.data;
-
     } catch (error) {
+      console.error(
+        "Registration Error:",
+        error.response?.data || error.message
+      );
+
       return rejectWithValue(
         error.response?.data?.message ||
           "Registration failed"
@@ -132,7 +146,6 @@ const authSlice = createSlice({
   initialState,
 
   reducers: {
-
     // =================================================
     // LOGOUT
     // =================================================
@@ -193,7 +206,6 @@ const authSlice = createSlice({
   // ===================================================
 
   extraReducers: (builder) => {
-
     // =================================================
     // LOGIN
     // =================================================

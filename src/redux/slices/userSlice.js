@@ -7,7 +7,9 @@ import axios from "axios";
 
 const API_URL =
   import.meta.env.VITE_API_URL ||
-  "http://localhost:5000";
+  (import.meta.env.DEV
+    ? "http://localhost:5000"
+    : "https://smart-food-waste-backend.onrender.com");
 
 // =====================================================
 // TOKEN
@@ -143,9 +145,17 @@ const userSlice = createSlice({
   initialState,
 
   reducers: {
+    // =================================================
+    // CLEAR USER ERROR
+    // =================================================
+
     clearUserError: (state) => {
       state.error = null;
     },
+
+    // =================================================
+    // CLEAR USERS
+    // =================================================
 
     clearUsers: (state) => {
       state.users = [];
@@ -162,81 +172,114 @@ const userSlice = createSlice({
     // ================================================
 
     builder
-      .addCase(fetchUsers.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
+      .addCase(
+        fetchUsers.pending,
+        (state) => {
+          state.loading = true;
+          state.error = null;
+        }
+      )
 
-      .addCase(fetchUsers.fulfilled, (state, action) => {
-        state.loading = false;
-        state.users = action.payload;
-        state.error = null;
-      })
+      .addCase(
+        fetchUsers.fulfilled,
+        (state, action) => {
+          state.loading = false;
+          state.users = action.payload;
+          state.error = null;
+        }
+      )
 
-      .addCase(fetchUsers.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-      });
+      .addCase(
+        fetchUsers.rejected,
+        (state, action) => {
+          state.loading = false;
+          state.error = action.payload;
+        }
+      );
 
     // ================================================
     // BLOCK USER
     // ================================================
 
     builder
-      .addCase(blockUser.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-
-      .addCase(blockUser.fulfilled, (state, action) => {
-        state.loading = false;
-        state.error = null;
-
-        const updatedUser = action.payload;
-
-        const index = state.users.findIndex(
-          (user) => user._id === updatedUser._id
-        );
-
-        if (index !== -1) {
-          state.users[index] = updatedUser;
+      .addCase(
+        blockUser.pending,
+        (state) => {
+          state.loading = true;
+          state.error = null;
         }
-      })
+      )
 
-      .addCase(blockUser.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-      });
+      .addCase(
+        blockUser.fulfilled,
+        (state, action) => {
+          state.loading = false;
+          state.error = null;
+
+          const updatedUser = action.payload;
+
+          const index =
+            state.users.findIndex(
+              (user) =>
+                user._id === updatedUser._id
+            );
+
+          if (index !== -1) {
+            state.users[index] =
+              updatedUser;
+          }
+        }
+      )
+
+      .addCase(
+        blockUser.rejected,
+        (state, action) => {
+          state.loading = false;
+          state.error = action.payload;
+        }
+      );
 
     // ================================================
     // UNBLOCK USER
     // ================================================
 
     builder
-      .addCase(unblockUser.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-
-      .addCase(unblockUser.fulfilled, (state, action) => {
-        state.loading = false;
-        state.error = null;
-
-        const updatedUser = action.payload;
-
-        const index = state.users.findIndex(
-          (user) => user._id === updatedUser._id
-        );
-
-        if (index !== -1) {
-          state.users[index] = updatedUser;
+      .addCase(
+        unblockUser.pending,
+        (state) => {
+          state.loading = true;
+          state.error = null;
         }
-      })
+      )
 
-      .addCase(unblockUser.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-      });
+      .addCase(
+        unblockUser.fulfilled,
+        (state, action) => {
+          state.loading = false;
+          state.error = null;
+
+          const updatedUser = action.payload;
+
+          const index =
+            state.users.findIndex(
+              (user) =>
+                user._id === updatedUser._id
+            );
+
+          if (index !== -1) {
+            state.users[index] =
+              updatedUser;
+          }
+        }
+      )
+
+      .addCase(
+        unblockUser.rejected,
+        (state, action) => {
+          state.loading = false;
+          state.error = action.payload;
+        }
+      );
   },
 });
 
