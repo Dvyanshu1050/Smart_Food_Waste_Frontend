@@ -996,72 +996,159 @@ const Home = () => {
           FOOTER
       ===================================================== */}
 
-      <footer className="bg-gray-950 text-gray-300">
+      <footer className="bg-gray-950 text-gray-300 border-t border-white/5">
 
-        <div className="max-w-7xl mx-auto px-6 py-10">
+  <div className="max-w-7xl mx-auto px-6 py-12">
 
-          <div
-            className="
-              flex
-              flex-col
-              md:flex-row
-              justify-between
-              gap-6
-            "
-          >
+    <div className="
+      flex
+      flex-col
+      md:flex-row
+      justify-between
+      items-start
+      md:items-center
+      gap-8
+    ">
 
-            {/* BRAND */}
+      {/* ================= BRAND ================= */}
 
-            <div>
+      <div>
 
-              <h2
-                className="
-                  text-2xl
-                  font-black
-                  tracking-tight
-                  text-white
-                "
-              >
-                Food
-                <span className="text-green-500">
-                  Bridge
-                </span>
-              </h2>
+        <h2 className="
+          text-3xl
+          font-black
+          tracking-tight
+          text-white
+        ">
+          Food
+          <span className="text-green-500">
+            Bridge
+          </span>
+        </h2>
 
-              <p
-                className="
-                  mt-2
-                  text-sm
-                  text-gray-400
-                  max-w-sm
-                "
-              >
-                Connecting surplus food with
-                people who need it.
-              </p>
+        <p className="
+          mt-3
+          text-sm
+          leading-6
+          text-gray-400
+          max-w-md
+        ">
+          Connecting surplus food with people
+          who need it — reducing food waste and
+          creating meaningful impact.
+        </p>
 
-            </div>
+        {/* TAG */}
+
+        <div className="
+          inline-flex
+          items-center
+          gap-2
+          mt-5
+          px-3
+          py-1.5
+          rounded-full
+          bg-green-500/10
+          border
+          border-green-500/20
+          text-green-400
+          text-xs
+          font-semibold
+        ">
+          <span className="text-sm">
+            🌱
+          </span>
+
+          Reduce Waste. Create Impact.
+        </div>
+
+      </div>
 
 
-            {/* COPYRIGHT */}
+      {/* ================= RIGHT ================= */}
 
-            <div className="text-sm md:text-right">
+      <div className="text-sm md:text-right">
 
-              <p>
-                © 2026 FoodBridge
-              </p>
+        <p className="text-gray-400">
+          © 2026{" "}
+          <span className="font-semibold text-white">
+            FoodBridge
+          </span>
+          . All rights reserved.
+        </p>
 
-              <p className="mt-1 text-gray-500">
-                Reduce Waste. Share Food. Create Impact.
-              </p>
+        <p className="
+          mt-2
+          text-gray-500
+          text-xs
+        ">
+          Reduce Waste. Share Food. Create Impact.
+        </p>
 
-            </div>
+        {/* DEVELOPER */}
 
-          </div>
+        <div className="
+          mt-5
+          inline-flex
+          items-center
+          gap-2
+          rounded-full
+          border
+          border-white/10
+          bg-white/5
+          px-4
+          py-2
+        ">
+
+          <span className="text-xs text-gray-500">
+            Built with ❤️ by
+          </span>
+
+          <span className="
+            font-bold
+            text-green-400
+          ">
+            Mr.Dev
+          </span>
 
         </div>
 
-      </footer>
+      </div>
+
+    </div>
+
+
+    {/* ================= BOTTOM LINE ================= */}
+
+    <div className="
+      mt-10
+      pt-6
+      border-t
+      border-white/10
+      flex
+      flex-col
+      sm:flex-row
+      justify-between
+      items-center
+      gap-3
+      text-xs
+      text-gray-500
+    ">
+
+      <p>
+        Every meal saved is a step toward
+        a better tomorrow.
+      </p>
+
+      <p className="text-gray-600">
+        FoodBridge • Smart Food Donation Platform
+      </p>
+
+    </div>
+
+  </div>
+
+</footer>
 
     </div>
   );
