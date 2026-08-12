@@ -1,27 +1,21 @@
 import { Link } from "react-router-dom";
 import ImpactMap from "../components/ImpactMap";
+import Mission from "./Mission";
+
 const Home = () => {
   return (
-    <div className="bg-white">
+    <div className="w-full bg-white">
 
       {/* =====================================================
-          VIDEO HERO
+          HERO
       ===================================================== */}
 
       <section className="relative min-h-[calc(100vh-74px)] overflow-hidden bg-black">
 
-        {/* ===================================================
-            BACKGROUND VIDEO
-        =================================================== */}
+        {/* VIDEO */}
 
         <video
-          className="
-            absolute
-            inset-0
-            w-full
-            h-full
-            object-cover
-          "
+          className="absolute inset-0 h-full w-full object-cover"
           autoPlay
           muted
           loop
@@ -37,27 +31,16 @@ const Home = () => {
         </video>
 
 
-        {/* ===================================================
-            DARK OVERLAY
-        =================================================== */}
+        {/* DARK OVERLAY */}
+
+        <div className="absolute inset-0 bg-black/55" />
+
+
+        {/* LEFT GRADIENT */}
 
         <div
           className="
-            absolute
-            inset-0
-            bg-black/55
-          "
-        />
-
-
-        {/* ===================================================
-            LEFT GRADIENT
-        =================================================== */}
-
-        <div
-          className="
-            absolute
-            inset-0
+            absolute inset-0
             bg-gradient-to-r
             from-black/85
             via-black/55
@@ -66,16 +49,11 @@ const Home = () => {
         />
 
 
-        {/* ===================================================
-            BOTTOM GRADIENT
-        =================================================== */}
+        {/* BOTTOM GRADIENT */}
 
         <div
           className="
-            absolute
-            bottom-0
-            left-0
-            right-0
+            absolute bottom-0 left-0 right-0
             h-48
             bg-gradient-to-t
             from-black/80
@@ -84,53 +62,41 @@ const Home = () => {
         />
 
 
-        {/* ===================================================
-            HERO CONTENT
-        =================================================== */}
+        {/* HERO CONTENT */}
 
         <div
           className="
-            relative
-            z-10
+            relative z-10
+            mx-auto flex
             min-h-[calc(100vh-74px)]
             max-w-7xl
-            mx-auto
-            px-6
-            flex
             items-center
+            px-6
           "
         >
 
           <div className="max-w-3xl text-white">
 
-            {/* =================================================
-                LABEL
-            ================================================= */}
+            {/* LABEL */}
 
             <div
               className="
-                inline-flex
-                items-center
-                gap-2
-                px-4
-                py-2
+                mb-7 inline-flex
+                items-center gap-2
                 rounded-full
-                border
-                border-white/20
+                border border-white/20
                 bg-white/10
-                backdrop-blur-md
-                text-sm
-                font-semibold
+                px-4 py-2
+                text-sm font-semibold
                 text-green-300
-                mb-7
                 shadow-lg
+                backdrop-blur-md
               "
             >
 
               <span
                 className="
-                  w-2
-                  h-2
+                  h-2 w-2
                   rounded-full
                   bg-green-400
                   shadow-[0_0_12px_rgba(74,222,128,0.9)]
@@ -143,19 +109,16 @@ const Home = () => {
             </div>
 
 
-            {/* =================================================
-                MAIN HEADING
-            ================================================= */}
+            {/* HEADING */}
 
             <h1
               className="
                 text-5xl
-                sm:text-6xl
-                md:text-7xl
                 font-black
                 leading-[0.95]
                 tracking-[-0.045em]
-                animate-[fadeIn_0.8s_ease-out]
+                sm:text-6xl
+                md:text-7xl
               "
             >
 
@@ -175,19 +138,16 @@ const Home = () => {
             </h1>
 
 
-            {/* =================================================
-                SUB HEADING
-            ================================================= */}
+            {/* SUB HEADING */}
 
             <h2
               className="
                 mt-6
                 text-2xl
-                sm:text-3xl
-                md:text-4xl
                 font-bold
                 leading-tight
-                text-white
+                sm:text-3xl
+                md:text-4xl
               "
             >
 
@@ -200,19 +160,17 @@ const Home = () => {
             </h2>
 
 
-            {/* =================================================
-                DESCRIPTION
-            ================================================= */}
+            {/* DESCRIPTION */}
 
             <p
               className="
                 mt-6
                 max-w-2xl
                 text-base
-                sm:text-lg
-                md:text-xl
                 leading-relaxed
                 text-gray-200
+                sm:text-lg
+                md:text-xl
               "
             >
               Every day, perfectly good food is wasted while
@@ -222,59 +180,35 @@ const Home = () => {
             </p>
 
 
-            {/* =================================================
-                BUTTONS
-            ================================================= */}
+            {/* BUTTONS */}
 
-            <div
-              className="
-                mt-9
-                flex
-                flex-wrap
-                gap-4
-              "
-            >
+            <div className="mt-9 flex flex-wrap gap-4">
 
-              {/* =================================================
-                  DONATE FOOD
-              ================================================= */}
+              {/* DONATE */}
 
               <Link
                 to="/register"
                 className="
-                  group
-                  relative
-                  isolate
-                  overflow-hidden
-                  px-7
-                  py-3.5
+                  group relative isolate overflow-hidden
                   rounded-xl
+                  border border-green-400
                   bg-green-500
-                  border
-                  border-green-400
-                  text-white
-                  font-bold
-                  text-base
+                  px-7 py-3.5
+                  text-base font-bold text-white
                   shadow-[0_10px_35px_rgba(34,197,94,0.30)]
-                  transition-all
-                  duration-300
+                  transition-all duration-300
                   hover:-translate-y-1
                   hover:text-green-700
                   hover:shadow-[0_15px_45px_rgba(34,197,94,0.40)]
                 "
               >
 
-                {/* WHITE HOVER */}
-
                 <span
                   className="
-                    absolute
-                    inset-0
-                    -z-10
+                    absolute inset-0 -z-10
                     translate-y-full
                     bg-white
-                    transition-transform
-                    duration-300
+                    transition-transform duration-300
                     group-hover:translate-y-0
                   "
                 />
@@ -286,32 +220,22 @@ const Home = () => {
               </Link>
 
 
-              {/* =================================================
-                  FIND DONATIONS
-              ================================================= */}
+              {/* FIND DONATIONS */}
 
               <Link
                 to="/ngo/available-donations"
                 className="
-                  group
-                  relative
-                  overflow-hidden
-                  px-7
-                  py-3.5
                   rounded-xl
-                  border
-                  border-white/40
+                  border border-white/40
                   bg-white/10
+                  px-7 py-3.5
+                  text-base font-bold text-white
                   backdrop-blur-md
-                  text-white
-                  font-bold
-                  text-base
-                  transition-all
-                  duration-300
+                  transition-all duration-300
                   hover:-translate-y-1
+                  hover:border-white
                   hover:bg-white
                   hover:text-green-700
-                  hover:border-white
                   hover:shadow-[0_10px_35px_rgba(255,255,255,0.18)]
                 "
               >
@@ -321,37 +245,27 @@ const Home = () => {
             </div>
 
 
-            {/* =================================================
-                IMPACT POINTS
-            ================================================= */}
+            {/* IMPACT POINTS */}
 
             <div
               className="
                 mt-10
-                flex
-                flex-wrap
+                flex flex-wrap
                 items-center
                 gap-6
-                text-sm
-                text-gray-300
+                text-sm text-gray-300
               "
             >
-
-              {/* SAVE MEALS */}
 
               <div className="flex items-center gap-2">
 
                 <span
                   className="
-                    flex
-                    items-center
-                    justify-center
-                    w-9
-                    h-9
+                    flex h-9 w-9
+                    items-center justify-center
                     rounded-full
+                    border border-green-400/30
                     bg-green-500/20
-                    border
-                    border-green-400/30
                   "
                 >
                   🍽️
@@ -364,24 +278,18 @@ const Home = () => {
               </div>
 
 
-              <div className="hidden sm:block w-px h-6 bg-white/20" />
+              <div className="hidden h-6 w-px bg-white/20 sm:block" />
 
-
-              {/* FEED COMMUNITIES */}
 
               <div className="flex items-center gap-2">
 
                 <span
                   className="
-                    flex
-                    items-center
-                    justify-center
-                    w-9
-                    h-9
+                    flex h-9 w-9
+                    items-center justify-center
                     rounded-full
+                    border border-green-400/30
                     bg-green-500/20
-                    border
-                    border-green-400/30
                   "
                 >
                   ❤️
@@ -394,24 +302,18 @@ const Home = () => {
               </div>
 
 
-              <div className="hidden sm:block w-px h-6 bg-white/20" />
+              <div className="hidden h-6 w-px bg-white/20 sm:block" />
 
-
-              {/* REDUCE WASTE */}
 
               <div className="flex items-center gap-2">
 
                 <span
                   className="
-                    flex
-                    items-center
-                    justify-center
-                    w-9
-                    h-9
+                    flex h-9 w-9
+                    items-center justify-center
                     rounded-full
+                    border border-green-400/30
                     bg-green-500/20
-                    border
-                    border-green-400/30
                   "
                 >
                   🌱
@@ -430,54 +332,36 @@ const Home = () => {
         </div>
 
 
-        {/* ===================================================
-            SCROLL INDICATOR
-        =================================================== */}
+        {/* SCROLL */}
 
         <div
           className="
-            absolute
-            bottom-7
-            left-1/2
+            absolute bottom-7 left-1/2
+            z-20 hidden
             -translate-x-1/2
-            z-20
-            hidden
-            md:flex
-            flex-col
-            items-center
-            gap-2
+            flex-col items-center gap-2
             text-white/70
+            md:flex
           "
         >
 
-          <span
-            className="
-              text-[10px]
-              font-semibold
-              tracking-[0.2em]
-              uppercase
-            "
-          >
+          <span className="text-[10px] font-semibold uppercase tracking-[0.2em]">
             Explore
           </span>
 
           <div
             className="
-              w-6
-              h-10
-              rounded-full
-              border
-              border-white/40
-              flex
+              flex h-10 w-6
               justify-center
+              rounded-full
+              border border-white/40
               pt-2
             "
           >
 
             <span
               className="
-                w-1.5
-                h-1.5
+                h-1.5 w-1.5
                 rounded-full
                 bg-white
                 animate-bounce
@@ -495,29 +379,16 @@ const Home = () => {
           STATS
       ===================================================== */}
 
-      <section className="py-16 bg-white">
+      <section className="w-full bg-white py-16">
 
-        <div className="max-w-7xl mx-auto px-6">
+        <div className="mx-auto w-full max-w-7xl px-6">
 
-          <div
-            className="
-              grid
-              grid-cols-2
-              md:grid-cols-4
-              gap-6
-            "
-          >
-
-            {/* STAT 1 */}
+          <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
 
             <div
               className="
-                group
-                text-center
-                p-6
-                rounded-2xl
-                transition-all
-                duration-300
+                group rounded-2xl p-6 text-center
+                transition-all duration-300
                 hover:-translate-y-1
                 hover:bg-green-50
                 hover:shadow-lg
@@ -528,23 +399,17 @@ const Home = () => {
                 12K+
               </h2>
 
-              <p className="text-gray-500 mt-2 font-medium">
+              <p className="mt-2 font-medium text-gray-500">
                 Meals Donated
               </p>
 
             </div>
 
 
-            {/* STAT 2 */}
-
             <div
               className="
-                group
-                text-center
-                p-6
-                rounded-2xl
-                transition-all
-                duration-300
+                group rounded-2xl p-6 text-center
+                transition-all duration-300
                 hover:-translate-y-1
                 hover:bg-green-50
                 hover:shadow-lg
@@ -555,23 +420,17 @@ const Home = () => {
                 9K+
               </h2>
 
-              <p className="text-gray-500 mt-2 font-medium">
+              <p className="mt-2 font-medium text-gray-500">
                 Meals Distributed
               </p>
 
             </div>
 
 
-            {/* STAT 3 */}
-
             <div
               className="
-                group
-                text-center
-                p-6
-                rounded-2xl
-                transition-all
-                duration-300
+                group rounded-2xl p-6 text-center
+                transition-all duration-300
                 hover:-translate-y-1
                 hover:bg-green-50
                 hover:shadow-lg
@@ -582,23 +441,17 @@ const Home = () => {
                 250+
               </h2>
 
-              <p className="text-gray-500 mt-2 font-medium">
+              <p className="mt-2 font-medium text-gray-500">
                 Active Donors
               </p>
 
             </div>
 
 
-            {/* STAT 4 */}
-
             <div
               className="
-                group
-                text-center
-                p-6
-                rounded-2xl
-                transition-all
-                duration-300
+                group rounded-2xl p-6 text-center
+                transition-all duration-300
                 hover:-translate-y-1
                 hover:bg-green-50
                 hover:shadow-lg
@@ -609,7 +462,7 @@ const Home = () => {
                 80+
               </h2>
 
-              <p className="text-gray-500 mt-2 font-medium">
+              <p className="mt-2 font-medium text-gray-500">
                 NGOs & Volunteers
               </p>
 
@@ -622,38 +475,49 @@ const Home = () => {
       </section>
 
 
-<ImpactMap />
+      {/* =====================================================
+          INDIA IMPACT MAP
+      ===================================================== */}
+
+      <ImpactMap />
 
 
       {/* =====================================================
-          HOW IT WORKS
+          OUR MISSION
       ===================================================== */}
 
-      <section className="bg-gray-50 py-20">
+      <Mission />
 
-        <div className="max-w-7xl mx-auto px-6">
+
+      {/* =====================================================
+          HOW FOODBRIDGE WORKS
+      ===================================================== */}
+
+      <section className="w-full bg-gray-50 py-20">
+
+        <div className="mx-auto w-full max-w-7xl px-6">
 
           {/* HEADER */}
 
-          <div className="text-center mb-12">
+          <div className="mb-12 text-center">
 
-            <p className="text-green-600 font-bold tracking-wider text-sm">
+            <p className="text-sm font-bold tracking-wider text-green-600">
               SIMPLE PROCESS
             </p>
 
             <h2
               className="
+                mt-2
                 text-3xl
-                md:text-4xl
                 font-black
                 text-gray-900
-                mt-2
+                md:text-4xl
               "
             >
               How FoodBridge Works
             </h2>
 
-            <p className="text-gray-500 mt-4">
+            <p className="mt-4 text-gray-500">
               From surplus food to someone who needs it.
             </p>
 
@@ -662,52 +526,44 @@ const Home = () => {
 
           {/* STEPS */}
 
-          <div className="grid md:grid-cols-4 gap-8">
+          <div className="grid gap-8 md:grid-cols-4">
 
-            {/* STEP 1 */}
+            {/* DONATE */}
 
             <div
               className="
                 group
+                rounded-2xl
                 bg-white
                 p-7
-                rounded-2xl
-                shadow-sm
                 text-center
-                border
-                border-transparent
+                shadow-sm
                 transition-all
                 duration-300
                 hover:-translate-y-2
-                hover:border-green-100
-                hover:shadow-[0_15px_35px_rgba(16,185,129,0.12)]
+                hover:shadow-xl
               "
             >
 
               <div
                 className="
-                  w-14
-                  h-14
-                  mx-auto
-                  bg-green-100
+                  mx-auto flex h-14 w-14
+                  items-center justify-center
                   rounded-full
-                  flex
-                  items-center
-                  justify-center
+                  bg-green-100
                   text-2xl
-                  transition-transform
-                  duration-300
+                  transition-transform duration-300
                   group-hover:scale-110
                 "
               >
                 🥗
               </div>
 
-              <h3 className="text-xl font-bold mt-5">
+              <h3 className="mt-5 text-xl font-bold text-gray-900">
                 Donate
               </h3>
 
-              <p className="text-gray-500 mt-3 leading-relaxed">
+              <p className="mt-3 leading-relaxed text-gray-500">
                 Donors list their surplus food with
                 quantity and pickup details.
               </p>
@@ -715,50 +571,42 @@ const Home = () => {
             </div>
 
 
-            {/* STEP 2 */}
+            {/* DISCOVER */}
 
             <div
               className="
                 group
+                rounded-2xl
                 bg-white
                 p-7
-                rounded-2xl
-                shadow-sm
                 text-center
-                border
-                border-transparent
+                shadow-sm
                 transition-all
                 duration-300
                 hover:-translate-y-2
-                hover:border-blue-100
-                hover:shadow-[0_15px_35px_rgba(59,130,246,0.10)]
+                hover:shadow-xl
               "
             >
 
               <div
                 className="
-                  w-14
-                  h-14
-                  mx-auto
-                  bg-blue-100
+                  mx-auto flex h-14 w-14
+                  items-center justify-center
                   rounded-full
-                  flex
-                  items-center
-                  justify-center
+                  bg-blue-100
                   text-2xl
-                  transition-transform
-                  duration-300
+                  transition-transform duration-300
                   group-hover:scale-110
                 "
               >
                 🔎
               </div>
 
-              <h3 className="text-xl font-bold mt-5">
+              <h3 className="mt-5 text-xl font-bold text-gray-900">
                 Discover
               </h3>
 
-              <p className="text-gray-500 mt-3 leading-relaxed">
+              <p className="mt-3 leading-relaxed text-gray-500">
                 NGOs and volunteers find available
                 donations nearby.
               </p>
@@ -766,50 +614,42 @@ const Home = () => {
             </div>
 
 
-            {/* STEP 3 */}
+            {/* PICKUP */}
 
             <div
               className="
                 group
+                rounded-2xl
                 bg-white
                 p-7
-                rounded-2xl
-                shadow-sm
                 text-center
-                border
-                border-transparent
+                shadow-sm
                 transition-all
                 duration-300
                 hover:-translate-y-2
-                hover:border-orange-100
-                hover:shadow-[0_15px_35px_rgba(249,115,22,0.10)]
+                hover:shadow-xl
               "
             >
 
               <div
                 className="
-                  w-14
-                  h-14
-                  mx-auto
-                  bg-orange-100
+                  mx-auto flex h-14 w-14
+                  items-center justify-center
                   rounded-full
-                  flex
-                  items-center
-                  justify-center
+                  bg-orange-100
                   text-2xl
-                  transition-transform
-                  duration-300
+                  transition-transform duration-300
                   group-hover:scale-110
                 "
               >
                 🚚
               </div>
 
-              <h3 className="text-xl font-bold mt-5">
+              <h3 className="mt-5 text-xl font-bold text-gray-900">
                 Pickup
               </h3>
 
-              <p className="text-gray-500 mt-3 leading-relaxed">
+              <p className="mt-3 leading-relaxed text-gray-500">
                 Volunteers collect the food from
                 the donor's location.
               </p>
@@ -817,50 +657,42 @@ const Home = () => {
             </div>
 
 
-            {/* STEP 4 */}
+            {/* DELIVER */}
 
             <div
               className="
                 group
+                rounded-2xl
                 bg-white
                 p-7
-                rounded-2xl
-                shadow-sm
                 text-center
-                border
-                border-transparent
+                shadow-sm
                 transition-all
                 duration-300
                 hover:-translate-y-2
-                hover:border-purple-100
-                hover:shadow-[0_15px_35px_rgba(168,85,247,0.10)]
+                hover:shadow-xl
               "
             >
 
               <div
                 className="
-                  w-14
-                  h-14
-                  mx-auto
-                  bg-purple-100
+                  mx-auto flex h-14 w-14
+                  items-center justify-center
                   rounded-full
-                  flex
-                  items-center
-                  justify-center
+                  bg-purple-100
                   text-2xl
-                  transition-transform
-                  duration-300
+                  transition-transform duration-300
                   group-hover:scale-110
                 "
               >
                 ❤️
               </div>
 
-              <h3 className="text-xl font-bold mt-5">
+              <h3 className="mt-5 text-xl font-bold text-gray-900">
                 Deliver
               </h3>
 
-              <p className="text-gray-500 mt-3 leading-relaxed">
+              <p className="mt-3 leading-relaxed text-gray-500">
                 Food reaches NGOs and people who
                 need it.
               </p>
@@ -878,36 +710,38 @@ const Home = () => {
           CTA
       ===================================================== */}
 
-      <section className="py-20 bg-white">
+      <section className="w-full bg-white py-20">
 
-        <div className="max-w-5xl mx-auto px-6">
+        <div className="mx-auto w-full max-w-6xl px-6">
 
           <div
             className="
               relative
               overflow-hidden
+              rounded-3xl
               bg-gradient-to-br
               from-green-600
               via-emerald-600
               to-green-700
-              rounded-3xl
-              p-10
-              md:p-14
+              px-6
+              py-14
               text-center
               text-white
               shadow-[0_20px_60px_rgba(16,185,129,0.20)]
+              md:px-14
             "
           >
 
-            {/* DECORATION */}
+            {/* DECORATIVE GLOW */}
 
             <div
               className="
+                pointer-events-none
                 absolute
-                -top-20
                 -right-20
-                w-60
+                -top-20
                 h-60
+                w-60
                 rounded-full
                 bg-white/10
                 blur-2xl
@@ -916,11 +750,12 @@ const Home = () => {
 
             <div
               className="
+                pointer-events-none
                 absolute
                 -bottom-20
                 -left-20
-                w-60
                 h-60
+                w-60
                 rounded-full
                 bg-green-300/10
                 blur-2xl
@@ -928,27 +763,24 @@ const Home = () => {
             />
 
 
-            {/* CONTENT */}
+            {/* CTA CONTENT */}
 
             <div className="relative z-10">
 
-              <h2
-                className="
-                  text-3xl
-                  md:text-4xl
-                  font-black
-                "
-              >
+              <p className="mb-3 text-sm font-bold uppercase tracking-[0.2em] text-green-100">
+                Make A Difference
+              </p>
+
+              <h2 className="text-3xl font-black md:text-5xl">
                 Have Extra Food?
               </h2>
 
               <p
                 className="
-                  mt-4
-                  text-green-100
+                  mx-auto mt-4
                   max-w-2xl
-                  mx-auto
                   leading-relaxed
+                  text-green-100
                 "
               >
                 Don't let good food go to waste.
@@ -960,27 +792,24 @@ const Home = () => {
               <Link
                 to="/register"
                 className="
-                  group
-                  relative
-                  inline-block
-                  overflow-hidden
                   mt-8
+                  inline-flex
+                  items-center
+                  justify-center
+                  rounded-xl
                   bg-white
-                  text-green-700
                   px-7
                   py-3
-                  rounded-xl
                   font-bold
-                  border
-                  border-white
+                  text-green-700
                   transition-all
                   duration-300
-                  hover:bg-green-50
                   hover:-translate-y-1
+                  hover:bg-green-50
                   hover:shadow-xl
                 "
               >
-                Start Donating
+                Start Donating →
               </Link>
 
             </div>
@@ -996,159 +825,172 @@ const Home = () => {
           FOOTER
       ===================================================== */}
 
-      <footer className="bg-gray-950 text-gray-300 border-t border-white/5">
+      <footer className="w-full border-t border-white/5 bg-gray-950 text-gray-300">
 
-  <div className="max-w-7xl mx-auto px-6 py-12">
+        <div className="mx-auto max-w-7xl px-6 py-12">
 
-    <div className="
-      flex
-      flex-col
-      md:flex-row
-      justify-between
-      items-start
-      md:items-center
-      gap-8
-    ">
+          <div
+            className="
+              flex
+              flex-col
+              items-start
+              justify-between
+              gap-8
+              md:flex-row
+              md:items-center
+            "
+          >
 
-      {/* ================= BRAND ================= */}
+            {/* BRAND */}
 
-      <div>
+            <div>
 
-        <h2 className="
-          text-3xl
-          font-black
-          tracking-tight
-          text-white
-        ">
-          Food
-          <span className="text-green-500">
-            Bridge
-          </span>
-        </h2>
+              <h2
+                className="
+                  text-3xl
+                  font-black
+                  tracking-tight
+                  text-white
+                "
+              >
+                Food
 
-        <p className="
-          mt-3
-          text-sm
-          leading-6
-          text-gray-400
-          max-w-md
-        ">
-          Connecting surplus food with people
-          who need it — reducing food waste and
-          creating meaningful impact.
-        </p>
+                <span className="text-green-500">
+                  Bridge
+                </span>
+              </h2>
 
-        {/* TAG */}
+              <p
+                className="
+                  mt-3
+                  max-w-md
+                  text-sm
+                  leading-6
+                  text-gray-400
+                "
+              >
+                Connecting surplus food with people
+                who need it — reducing food waste and
+                creating meaningful impact.
+              </p>
 
-        <div className="
-          inline-flex
-          items-center
-          gap-2
-          mt-5
-          px-3
-          py-1.5
-          rounded-full
-          bg-green-500/10
-          border
-          border-green-500/20
-          text-green-400
-          text-xs
-          font-semibold
-        ">
-          <span className="text-sm">
-            🌱
-          </span>
 
-          Reduce Waste. Create Impact.
+              <div
+                className="
+                  mt-5
+                  inline-flex
+                  items-center
+                  gap-2
+                  rounded-full
+                  border
+                  border-green-500/20
+                  bg-green-500/10
+                  px-3
+                  py-1.5
+                  text-xs
+                  font-semibold
+                  text-green-400
+                "
+              >
+
+                <span>
+                  🌱
+                </span>
+
+                Reduce Waste. Create Impact.
+
+              </div>
+
+            </div>
+
+
+            {/* RIGHT */}
+
+            <div className="text-sm md:text-right">
+
+              <p className="text-gray-400">
+
+                © 2026{" "}
+
+                <span className="font-semibold text-white">
+                  FoodBridge
+                </span>
+
+                . All rights reserved.
+
+              </p>
+
+
+              <p className="mt-2 text-xs text-gray-500">
+                Reduce Waste. Share Food. Create Impact.
+              </p>
+
+
+              {/* DEVELOPER */}
+
+              <div
+                className="
+                  mt-5
+                  inline-flex
+                  items-center
+                  gap-2
+                  rounded-full
+                  border
+                  border-white/10
+                  bg-white/5
+                  px-4
+                  py-2
+                "
+              >
+
+                <span className="text-xs text-gray-500">
+                  Built with ❤️ by
+                </span>
+
+                <span className="font-bold text-green-400">
+                  Mr.Dev
+                </span>
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+          {/* BOTTOM */}
+
+          <div
+            className="
+              mt-10
+              flex
+              flex-col
+              items-center
+              justify-between
+              gap-3
+              border-t
+              border-white/10
+              pt-6
+              text-xs
+              text-gray-500
+              sm:flex-row
+            "
+          >
+
+            <p>
+              Every meal saved is a step toward
+              a better tomorrow.
+            </p>
+
+            <p className="text-gray-600">
+              FoodBridge • Smart Food Donation Platform
+            </p>
+
+          </div>
+
         </div>
 
-      </div>
-
-
-      {/* ================= RIGHT ================= */}
-
-      <div className="text-sm md:text-right">
-
-        <p className="text-gray-400">
-          © 2026{" "}
-          <span className="font-semibold text-white">
-            FoodBridge
-          </span>
-          . All rights reserved.
-        </p>
-
-        <p className="
-          mt-2
-          text-gray-500
-          text-xs
-        ">
-          Reduce Waste. Share Food. Create Impact.
-        </p>
-
-        {/* DEVELOPER */}
-
-        <div className="
-          mt-5
-          inline-flex
-          items-center
-          gap-2
-          rounded-full
-          border
-          border-white/10
-          bg-white/5
-          px-4
-          py-2
-        ">
-
-          <span className="text-xs text-gray-500">
-            Built with ❤️ by
-          </span>
-
-          <span className="
-            font-bold
-            text-green-400
-          ">
-            Mr.Dev
-          </span>
-
-        </div>
-
-      </div>
-
-    </div>
-
-
-    {/* ================= BOTTOM LINE ================= */}
-
-    <div className="
-      mt-10
-      pt-6
-      border-t
-      border-white/10
-      flex
-      flex-col
-      sm:flex-row
-      justify-between
-      items-center
-      gap-3
-      text-xs
-      text-gray-500
-    ">
-
-      <p>
-        Every meal saved is a step toward
-        a better tomorrow.
-      </p>
-
-      <p className="text-gray-600">
-        FoodBridge • Smart Food Donation Platform
-      </p>
-
-    </div>
-
-  </div>
-
-</footer>
+      </footer>
 
     </div>
   );
