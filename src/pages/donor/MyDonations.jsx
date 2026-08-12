@@ -118,11 +118,7 @@ const formatDistance = (distance) => {
 };
 
 // =====================================================
-// MAP VIEW
-// =====================================================
-
-// =====================================================
-// MAP VIEW
+// MAP VIEW (🟢 FIX 1: Prevent Leaflet Infinite Pan Bug)
 // =====================================================
 
 const MapViewUpdater = ({
@@ -132,6 +128,13 @@ const MapViewUpdater = ({
 }) => {
   const map = useMap();
 
+  // Convert array to string to avoid React treating it as a "new" prop every millisecond
+  const locationSignature = JSON.stringify({
+    donorLocation,
+    ngoLocation,
+    deliveryLocation,
+  });
+
   useEffect(() => {
     const locations = [
       donorLocation,
@@ -139,36 +142,22 @@ const MapViewUpdater = ({
       deliveryLocation,
     ].filter(Boolean);
 
-    // Agar koi location nahi hai
-    if (locations.length === 0) {
-      return;
-    }
+    if (locations.length === 0) return;
 
-    // Sirf donor location available
     if (locations.length === 1) {
-      map.setView(locations[0], 14, {
-        animate: true,
-      });
-
+      map.setView(locations[0], 14, { animate: true });
       return;
     }
 
-    // Multiple locations ko ek saath map mein fit karo
-    const bounds = L.latLngBounds(
-      locations
-    );
-
+    const bounds = L.latLngBounds(locations);
+    
+    // Fit bounds seamlessly without freezing the map
     map.fitBounds(bounds, {
       padding: [55, 55],
       maxZoom: 15,
       animate: true,
     });
-  }, [
-    donorLocation,
-    ngoLocation,
-    deliveryLocation,
-    map,
-  ]);
+  }, [locationSignature, map]); // Dependent ONLY on signature and map
 
   return null;
 };
@@ -400,10 +389,10 @@ const LiveTracking = ({
             />
 
             <MapViewUpdater
-  donorLocation={donorLocation}
-  ngoLocation={ngoLocation}
-  deliveryLocation={deliveryLocation}
-/>
+              donorLocation={donorLocation}
+              ngoLocation={ngoLocation}
+              deliveryLocation={deliveryLocation}
+            />
 
             {/* Donor */}
             <Marker position={donorLocation} icon={donorIcon}>
@@ -604,7 +593,7 @@ const MyDonations = () => {
   }, [dispatch]);
 
   // =====================================================
-  // SOCKET.IO
+  // SOCKET.IO (🟢 FIX 2: Added robust reconnect joining)
   // =====================================================
 
   useEffect(() => {
@@ -616,13 +605,20 @@ const MyDonations = () => {
         donation.status === "PICKED_UP"
     );
 
-    // Donor only WATCHES the donation room.
-    // NGO is responsible for starting live tracking.
-    trackedDonations.forEach((donation) => {
-      socket.emit("donation:tracking-watch", {
-        donationId: donation._id,
+    // Create a function to join rooms, allowing us to reuse it on reconnect
+    const joinTrackingRooms = () => {
+      trackedDonations.forEach((donation) => {
+        socket.emit("donation:tracking-watch", {
+          donationId: donation._id,
+        });
       });
-    });
+    };
+
+    // Join immediately on mount/data load
+    joinTrackingRooms();
+
+    // 🟢 Critical Fix: If socket reconnects, re-join the rooms!
+    socket.on("connect", joinTrackingRooms);
 
     const handleLocationUpdate = (data) => {
       if (
@@ -678,7 +674,8 @@ const MyDonations = () => {
     socket.on("donation:tracking-stopped", handleTrackingStopped);
 
     return () => {
-      // Stop listening for old events.
+      // Cleanup all listeners to prevent memory leaks
+      socket.off("connect", joinTrackingRooms);
       socket.off("donation:location-updated", handleLocationUpdate);
       socket.off("donation:tracking-started", handleTrackingStarted);
       socket.off("donation:tracking-stopped", handleTrackingStopped);
@@ -810,7 +807,7 @@ const MyDonations = () => {
       )}
 
       {/* =================================================
-          LOADING
+          LOADING & EMPTY STATE
       ================================================= */}
 
       {loading && donations.length === 0 ? (
@@ -1042,4 +1039,4 @@ const MyDonations = () => {
   );
 };
 
-export default MyDonations
+export default MyDonations;

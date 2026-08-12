@@ -13,7 +13,7 @@ const API_URL =
     : "https://smart-food-waste-backend.onrender.com");
 
 // =====================================================
-// GET TOKEN
+// TOKEN
 // =====================================================
 
 const getToken = () => {
@@ -24,35 +24,25 @@ const getToken = () => {
 // AUTH CONFIG
 // =====================================================
 
-const getAuthConfig = () => {
-  const token = getToken();
-
-  return {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
-};
+const getAuthConfig = () => ({
+  headers: {
+    Authorization: `Bearer ${getToken()}`,
+    "Content-Type": "application/json",
+  },
+});
 
 // =====================================================
 // CREATE DONATION
-// POST /api/donations
 // =====================================================
 
 export const createDonation = createAsyncThunk(
   "donations/createDonation",
-
   async (donationData, { rejectWithValue }) => {
     try {
       const response = await axios.post(
         `${API_URL}/api/donations`,
         donationData,
-        {
-          headers: {
-            Authorization: `Bearer ${getToken()}`,
-            "Content-Type": "application/json",
-          },
-        }
+        getAuthConfig()
       );
 
       return response.data.donation;
@@ -72,12 +62,10 @@ export const createDonation = createAsyncThunk(
 
 // =====================================================
 // GET MY DONATIONS
-// GET /api/donations/my
 // =====================================================
 
 export const fetchMyDonations = createAsyncThunk(
   "donations/fetchMyDonations",
-
   async (_, { rejectWithValue }) => {
     try {
       const response = await axios.get(
@@ -101,43 +89,11 @@ export const fetchMyDonations = createAsyncThunk(
 );
 
 // =====================================================
-// GET MY CLAIMS
-// GET /api/donations/my-claims
-// =====================================================
-
-export const fetchMyClaims = createAsyncThunk(
-  "donations/fetchMyClaims",
-
-  async (_, { rejectWithValue }) => {
-    try {
-      const response = await axios.get(
-        `${API_URL}/api/donations/my-claims`,
-        getAuthConfig()
-      );
-
-      return response.data.donations;
-    } catch (error) {
-      console.error(
-        "Fetch My Claims Error:",
-        error.response?.data || error.message
-      );
-
-      return rejectWithValue(
-        error.response?.data?.message ||
-          "Failed to fetch your claims"
-      );
-    }
-  }
-);
-
-// =====================================================
 // GET AVAILABLE DONATIONS
-// GET /api/donations/available
 // =====================================================
 
 export const fetchAvailableDonations = createAsyncThunk(
   "donations/fetchAvailableDonations",
-
   async (_, { rejectWithValue }) => {
     try {
       const response = await axios.get(
@@ -161,22 +117,58 @@ export const fetchAvailableDonations = createAsyncThunk(
 );
 
 // =====================================================
+// GET MY CLAIMS
+// =====================================================
+
+export const fetchMyClaims = createAsyncThunk(
+  "donations/fetchMyClaims",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(
+        `${API_URL}/api/donations/my-claims`,
+        getAuthConfig()
+      );
+
+      return response.data.claims || response.data.donations || [];
+    } catch (error) {
+      console.error(
+        "Fetch My Claims Error:",
+        error.response?.data || error.message
+      );
+
+      return rejectWithValue(
+        error.response?.data?.message ||
+          "Failed to fetch your claims"
+      );
+    }
+  }
+);
+
+// =====================================================
 // CLAIM DONATION
-// PATCH /api/donations/:id/claim
 // =====================================================
 
 export const claimDonation = createAsyncThunk(
   "donations/claimDonation",
-
-  async (donationId, { rejectWithValue }) => {
+  async (
+    {
+      donationId,
+      claimedQuantity,
+      unit,
+    },
+    { rejectWithValue }
+  ) => {
     try {
       const response = await axios.patch(
         `${API_URL}/api/donations/${donationId}/claim`,
-        {},
+        {
+          claimedQuantity,
+          unit,
+        },
         getAuthConfig()
       );
 
-      return response.data.donation;
+      return response.data;
     } catch (error) {
       console.error(
         "Claim Donation Error:",
@@ -192,44 +184,11 @@ export const claimDonation = createAsyncThunk(
 );
 
 // =====================================================
-// PICKUP DONATION
-// PATCH /api/donations/:id/pickup
-// =====================================================
-
-export const pickupDonation = createAsyncThunk(
-  "donations/pickupDonation",
-
-  async (donationId, { rejectWithValue }) => {
-    try {
-      const response = await axios.patch(
-        `${API_URL}/api/donations/${donationId}/pickup`,
-        {},
-        getAuthConfig()
-      );
-
-      return response.data.donation;
-    } catch (error) {
-      console.error(
-        "Pickup Donation Error:",
-        error.response?.data || error.message
-      );
-
-      return rejectWithValue(
-        error.response?.data?.message ||
-          "Failed to pickup donation"
-      );
-    }
-  }
-);
-
-// =====================================================
 // SET DELIVERY LOCATION
-// PATCH /api/donations/:id/delivery-location
 // =====================================================
 
 export const setDeliveryLocation = createAsyncThunk(
   "donations/setDeliveryLocation",
-
   async (
     {
       donationId,
@@ -266,13 +225,40 @@ export const setDeliveryLocation = createAsyncThunk(
 );
 
 // =====================================================
+// PICKUP DONATION
+// =====================================================
+
+export const pickupDonation = createAsyncThunk(
+  "donations/pickupDonation",
+  async (donationId, { rejectWithValue }) => {
+    try {
+      const response = await axios.patch(
+        `${API_URL}/api/donations/${donationId}/pickup`,
+        {},
+        getAuthConfig()
+      );
+
+      return response.data;
+    } catch (error) {
+      console.error(
+        "Pickup Donation Error:",
+        error.response?.data || error.message
+      );
+
+      return rejectWithValue(
+        error.response?.data?.message ||
+          "Failed to pickup donation"
+      );
+    }
+  }
+);
+
+// =====================================================
 // DELIVER DONATION
-// PATCH /api/donations/:id/deliver
 // =====================================================
 
 export const deliverDonation = createAsyncThunk(
   "donations/deliverDonation",
-
   async (donationId, { rejectWithValue }) => {
     try {
       const response = await axios.patch(
@@ -281,7 +267,7 @@ export const deliverDonation = createAsyncThunk(
         getAuthConfig()
       );
 
-      return response.data.donation;
+      return response.data;
     } catch (error) {
       console.error(
         "Deliver Donation Error:",
@@ -302,6 +288,7 @@ export const deliverDonation = createAsyncThunk(
 
 const initialState = {
   donations: [],
+  claims: [],
   loading: false,
   error: null,
   success: false,
@@ -341,18 +328,16 @@ const donationSlice = createSlice({
       const updatedDonation = action.payload;
 
       const index = state.donations.findIndex(
-        (item) =>
-          item._id === updatedDonation._id
+        (item) => item._id === updatedDonation._id
       );
 
       if (index !== -1) {
-        state.donations[index] =
-          updatedDonation;
+        state.donations[index] = updatedDonation;
       }
     },
 
     // =================================================
-    // SOCKET: DELIVERY LOCATION UPDATED
+    // SOCKET: DELIVERY LOCATION
     // =================================================
 
     socketDonationDeliveryLocationUpdated: (
@@ -362,61 +347,49 @@ const donationSlice = createSlice({
       const updatedDonation = action.payload;
 
       const index = state.donations.findIndex(
-        (item) =>
-          item._id === updatedDonation._id
+        (item) => item._id === updatedDonation._id
       );
 
       if (index !== -1) {
-        state.donations[index] =
-          updatedDonation;
+        state.donations[index] = updatedDonation;
       }
     },
 
     // =================================================
-    // SOCKET: DONATION PICKED UP
+    // SOCKET: PICKED UP
     // =================================================
 
     socketDonationPickedUp: (
       state,
       action
     ) => {
-      const updatedDonation =
-        action.payload;
+      const updatedDonation = action.payload;
 
-      const index =
-        state.donations.findIndex(
-          (item) =>
-            item._id ===
-            updatedDonation._id
-        );
+      const index = state.donations.findIndex(
+        (item) => item._id === updatedDonation._id
+      );
 
       if (index !== -1) {
-        state.donations[index] =
-          updatedDonation;
+        state.donations[index] = updatedDonation;
       }
     },
 
     // =================================================
-    // SOCKET: DONATION DELIVERED
+    // SOCKET: DELIVERED
     // =================================================
 
     socketDonationDelivered: (
       state,
       action
     ) => {
-      const updatedDonation =
-        action.payload;
+      const updatedDonation = action.payload;
 
-      const index =
-        state.donations.findIndex(
-          (item) =>
-            item._id ===
-            updatedDonation._id
-        );
+      const index = state.donations.findIndex(
+        (item) => item._id === updatedDonation._id
+      );
 
       if (index !== -1) {
-        state.donations[index] =
-          updatedDonation;
+        state.donations[index] = updatedDonation;
       }
     },
 
@@ -443,11 +416,19 @@ const donationSlice = createSlice({
     clearDonations: (state) => {
       state.donations = [];
     },
+
+    // =================================================
+    // CLEAR CLAIMS
+    // =================================================
+
+    clearClaims: (state) => {
+      state.claims = [];
+    },
   },
 
-  // ===================================================
+  // =====================================================
   // EXTRA REDUCERS
-  // ===================================================
+  // =====================================================
 
   extraReducers: (builder) => {
     // =================================================
@@ -455,129 +436,70 @@ const donationSlice = createSlice({
     // =================================================
 
     builder
-      .addCase(
-        createDonation.pending,
-        (state) => {
-          state.loading = true;
-          state.error = null;
-          state.success = false;
-        }
-      )
+      .addCase(createDonation.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+        state.success = false;
+      })
 
-      .addCase(
-        createDonation.fulfilled,
-        (state, action) => {
-          state.loading = false;
-          state.success = true;
-          state.error = null;
+      .addCase(createDonation.fulfilled, (state, action) => {
+        state.loading = false;
+        state.success = true;
+        state.error = null;
 
-          const exists =
-            state.donations.some(
-              (item) =>
-                item._id ===
-                action.payload._id
-            );
+        if (action.payload) {
+          const exists = state.donations.some(
+            (item) => item._id === action.payload._id
+          );
 
           if (!exists) {
-            state.donations.unshift(
-              action.payload
-            );
+            state.donations.unshift(action.payload);
           }
         }
-      )
+      })
 
-      .addCase(
-        createDonation.rejected,
-        (state, action) => {
-          state.loading = false;
-          state.error = action.payload;
-          state.success = false;
-        }
-      );
+      .addCase(createDonation.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+        state.success = false;
+      });
 
     // =================================================
     // MY DONATIONS
     // =================================================
 
     builder
-      .addCase(
-        fetchMyDonations.pending,
-        (state) => {
-          state.loading = true;
-          state.error = null;
-        }
-      )
+      .addCase(fetchMyDonations.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
 
-      .addCase(
-        fetchMyDonations.fulfilled,
-        (state, action) => {
-          state.loading = false;
-          state.donations =
-            action.payload;
-          state.error = null;
-        }
-      )
+      .addCase(fetchMyDonations.fulfilled, (state, action) => {
+        state.loading = false;
+        state.donations = action.payload || [];
+        state.error = null;
+      })
 
-      .addCase(
-        fetchMyDonations.rejected,
-        (state, action) => {
-          state.loading = false;
-          state.error =
-            action.payload;
-        }
-      );
-
-    // =================================================
-    // MY CLAIMS
-    // =================================================
-
-    builder
-      .addCase(
-        fetchMyClaims.pending,
-        (state) => {
-          state.loading = true;
-          state.error = null;
-        }
-      )
-
-      .addCase(
-        fetchMyClaims.fulfilled,
-        (state, action) => {
-          state.loading = false;
-          state.donations =
-            action.payload;
-          state.error = null;
-        }
-      )
-
-      .addCase(
-        fetchMyClaims.rejected,
-        (state, action) => {
-          state.loading = false;
-          state.error =
-            action.payload;
-        }
-      );
+      .addCase(fetchMyDonations.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      });
 
     // =================================================
     // AVAILABLE DONATIONS
     // =================================================
 
     builder
-      .addCase(
-        fetchAvailableDonations.pending,
-        (state) => {
-          state.loading = true;
-          state.error = null;
-        }
-      )
+      .addCase(fetchAvailableDonations.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
 
       .addCase(
         fetchAvailableDonations.fulfilled,
         (state, action) => {
           state.loading = false;
-          state.donations =
-            action.payload;
+          state.donations = action.payload || [];
           state.error = null;
         }
       )
@@ -586,68 +508,95 @@ const donationSlice = createSlice({
         fetchAvailableDonations.rejected,
         (state, action) => {
           state.loading = false;
-          state.error =
-            action.payload;
+          state.error = action.payload;
         }
       );
+
+    // =================================================
+    // MY CLAIMS
+    // =================================================
+
+    builder
+      .addCase(fetchMyClaims.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+
+      .addCase(fetchMyClaims.fulfilled, (state, action) => {
+        state.loading = false;
+        state.claims = action.payload || [];
+        state.error = null;
+      })
+
+      .addCase(fetchMyClaims.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      });
 
     // =================================================
     // CLAIM
     // =================================================
 
     builder
-      .addCase(
-        claimDonation.pending,
-        (state) => {
-          state.loading = true;
-          state.error = null;
-        }
-      )
+      .addCase(claimDonation.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+        state.success = false;
+      })
 
-      .addCase(
-        claimDonation.fulfilled,
-        (state, action) => {
-          state.loading = false;
-          state.error = null;
+      .addCase(claimDonation.fulfilled, (state, action) => {
+        state.loading = false;
+        state.error = null;
+        state.success = true;
 
-          const updatedDonation =
-            action.payload;
+        const payload = action.payload;
 
-          const index =
-            state.donations.findIndex(
-              (item) =>
-                item._id ===
-                updatedDonation._id
-            );
+        const updatedDonation =
+          payload?.donation;
+
+        const claim =
+          payload?.claim;
+
+        // Update donation if backend returned it
+        if (updatedDonation?._id) {
+          const index = state.donations.findIndex(
+            (item) =>
+              item._id === updatedDonation._id
+          );
 
           if (index !== -1) {
             state.donations[index] =
               updatedDonation;
           }
         }
-      )
 
-      .addCase(
-        claimDonation.rejected,
-        (state, action) => {
-          state.loading = false;
-          state.error =
-            action.payload;
+        // Add claim if backend returned it
+        if (claim?._id) {
+          const exists = state.claims.some(
+            (item) => item._id === claim._id
+          );
+
+          if (!exists) {
+            state.claims.unshift(claim);
+          }
         }
-      );
+      })
+
+      .addCase(claimDonation.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+        state.success = false;
+      });
 
     // =================================================
-    // SET DELIVERY LOCATION
+    // DELIVERY LOCATION
     // =================================================
 
     builder
-      .addCase(
-        setDeliveryLocation.pending,
-        (state) => {
-          state.loading = true;
-          state.error = null;
-        }
-      )
+      .addCase(setDeliveryLocation.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
 
       .addCase(
         setDeliveryLocation.fulfilled,
@@ -655,15 +604,14 @@ const donationSlice = createSlice({
           state.loading = false;
           state.error = null;
 
-          const updatedDonation =
-            action.payload;
+          const updatedDonation = action.payload;
 
-          const index =
-            state.donations.findIndex(
-              (item) =>
-                item._id ===
-                updatedDonation._id
-            );
+          if (!updatedDonation?._id) return;
+
+          const index = state.donations.findIndex(
+            (item) =>
+              item._id === updatedDonation._id
+          );
 
           if (index !== -1) {
             state.donations[index] =
@@ -676,8 +624,7 @@ const donationSlice = createSlice({
         setDeliveryLocation.rejected,
         (state, action) => {
           state.loading = false;
-          state.error =
-            action.payload;
+          state.error = action.payload;
         }
       );
 
@@ -686,13 +633,10 @@ const donationSlice = createSlice({
     // =================================================
 
     builder
-      .addCase(
-        pickupDonation.pending,
-        (state) => {
-          state.loading = true;
-          state.error = null;
-        }
-      )
+      .addCase(pickupDonation.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
 
       .addCase(
         pickupDonation.fulfilled,
@@ -700,15 +644,17 @@ const donationSlice = createSlice({
           state.loading = false;
           state.error = null;
 
-          const updatedDonation =
-            action.payload;
+          const payload = action.payload;
 
-          const index =
-            state.donations.findIndex(
-              (item) =>
-                item._id ===
-                updatedDonation._id
-            );
+          const updatedDonation =
+            payload?.donation || payload;
+
+          if (!updatedDonation?._id) return;
+
+          const index = state.donations.findIndex(
+            (item) =>
+              item._id === updatedDonation._id
+          );
 
           if (index !== -1) {
             state.donations[index] =
@@ -721,8 +667,7 @@ const donationSlice = createSlice({
         pickupDonation.rejected,
         (state, action) => {
           state.loading = false;
-          state.error =
-            action.payload;
+          state.error = action.payload;
         }
       );
 
@@ -731,13 +676,10 @@ const donationSlice = createSlice({
     // =================================================
 
     builder
-      .addCase(
-        deliverDonation.pending,
-        (state) => {
-          state.loading = true;
-          state.error = null;
-        }
-      )
+      .addCase(deliverDonation.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
 
       .addCase(
         deliverDonation.fulfilled,
@@ -745,15 +687,17 @@ const donationSlice = createSlice({
           state.loading = false;
           state.error = null;
 
-          const updatedDonation =
-            action.payload;
+          const payload = action.payload;
 
-          const index =
-            state.donations.findIndex(
-              (item) =>
-                item._id ===
-                updatedDonation._id
-            );
+          const updatedDonation =
+            payload?.donation || payload;
+
+          if (!updatedDonation?._id) return;
+
+          const index = state.donations.findIndex(
+            (item) =>
+              item._id === updatedDonation._id
+          );
 
           if (index !== -1) {
             state.donations[index] =
@@ -766,27 +710,34 @@ const donationSlice = createSlice({
         deliverDonation.rejected,
         (state, action) => {
           state.loading = false;
-          state.error =
-            action.payload;
+          state.error = action.payload;
         }
       );
   },
 });
 
 // =====================================================
+// ACTIONS
+// =====================================================
+
+export const {
+  socketDonationCreated,
+  socketDonationClaimed,
+  socketDonationDeliveryLocationUpdated,
+  socketDonationPickedUp,
+  socketDonationDelivered,
+  clearDonationError,
+  clearDonationSuccess,
+  clearDonations,
+  clearClaims,
+} = donationSlice.actions;
+
+// =====================================================
 // SOCKET LISTENERS
 // =====================================================
 
-export const setupDonationSocket = (
-  dispatch
-) => {
-  // =================================================
-  // DONATION CREATED
-  // =================================================
-
-  const handleDonationCreated = (
-    donation
-  ) => {
+export const setupDonationSocket = (dispatch) => {
+  const handleDonationCreated = (donation) => {
     console.log(
       "🆕 New donation received:",
       donation
@@ -796,10 +747,6 @@ export const setupDonationSocket = (
       socketDonationCreated(donation)
     );
   };
-
-  // =================================================
-  // DELIVERY LOCATION UPDATED
-  // =================================================
 
   const handleDeliveryLocationUpdated = (
     donation
@@ -816,13 +763,7 @@ export const setupDonationSocket = (
     );
   };
 
-  // =================================================
-  // DONATION CLAIMED
-  // =================================================
-
-  const handleDonationClaimed = (
-    donation
-  ) => {
+  const handleDonationClaimed = (donation) => {
     console.log(
       "📦 Donation claimed:",
       donation
@@ -833,13 +774,7 @@ export const setupDonationSocket = (
     );
   };
 
-  // =================================================
-  // DONATION PICKED UP
-  // =================================================
-
-  const handleDonationPickedUp = (
-    donation
-  ) => {
+  const handleDonationPickedUp = (donation) => {
     console.log(
       "🚚 Donation picked up:",
       donation
@@ -850,13 +785,7 @@ export const setupDonationSocket = (
     );
   };
 
-  // =================================================
-  // DONATION DELIVERED
-  // =================================================
-
-  const handleDonationDelivered = (
-    donation
-  ) => {
+  const handleDonationDelivered = (donation) => {
     console.log(
       "✅ Donation delivered:",
       donation
@@ -867,9 +796,7 @@ export const setupDonationSocket = (
     );
   };
 
-  // =================================================
-  // REGISTER LISTENERS
-  // =================================================
+  // Register listeners
 
   socket.on(
     "donation:created",
@@ -896,9 +823,7 @@ export const setupDonationSocket = (
     handleDeliveryLocationUpdated
   );
 
-  // =================================================
-  // CLEANUP
-  // =================================================
+  // Cleanup
 
   return () => {
     socket.off(
@@ -927,21 +852,6 @@ export const setupDonationSocket = (
     );
   };
 };
-
-// =====================================================
-// ACTIONS
-// =====================================================
-
-export const {
-  socketDonationCreated,
-  socketDonationClaimed,
-  socketDonationDeliveryLocationUpdated,
-  socketDonationPickedUp,
-  socketDonationDelivered,
-  clearDonationError,
-  clearDonationSuccess,
-  clearDonations,
-} = donationSlice.actions;
 
 // =====================================================
 // REDUCER
